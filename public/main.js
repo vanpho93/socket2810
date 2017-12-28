@@ -1,4 +1,6 @@
 const socket = io();
+ 
+$('#divSignIn').hide();
 
 $('#btnSend').click(() => {
     const message = $('#txtMessage').val();

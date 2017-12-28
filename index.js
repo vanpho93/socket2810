@@ -20,16 +20,14 @@ app.get('*', (req, res) => res.redirect('/'));
 server.listen(3000, () => console.log('Server started!'));
 
 const users = [];
-
 io.on('connection', socket => {
     socket.on('CLIENT_SIGN_IN', username => {
         const isExisted = users.some(u => u.username === username);
         if (isExisted) return socket.emit('REJECT_SIGN_IN');
         const user = new User(username, socket.id);
         users.push(user);
-        socket.emit('ACCEPT_SIGN_IN');
+        socket.emit('ACCEPT_SIGN_IN', users);
     });
-
     socket.on('CLIENT_SEND_MESSAGE', message => {
         console.log(message);
         io.emit('SERVER_SEND_MESSAGE', message);
